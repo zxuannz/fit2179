@@ -1,0 +1,21 @@
+var choropleth  = "json/choropleth.json";
+var kl_rail     = "json/kl_rail_route_map.json";
+var poverty     = "json/poverty_rate.json";
+var mean_income = "json/mean_income.json";
+var population  = "json/population.json";
+var annual      = "json/annual_ridership.json";
+var heatmap     = "json/heatmap.json";
+var daily_ets   = "json/daily_ets.json";
+var hies        = "json/hies_state.json";
+var ladder      = "json/income_inequality.json";
+
+vegaEmbed('#chart1',  choropleth).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart2',  kl_rail).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart3',  poverty).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart4',  mean_income).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart5',  population).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart7',  annual).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart8',  heatmap).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart9',  daily_ets).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart10', hies).then(function(result) {}).catch(console.error);
+vegaEmbed('#chart11', ladder).then(function(result) {}).catch(console.error);
