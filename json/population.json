@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 385,
+  "height": 380,
+  "title": {
+    "text": "Population by State and Sex (2024)",
+    "subtitle": "Selangor is the most populous state.",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#333",
+    "subtitleColor": "#666"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/population_2024.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.sex == 'male' ? -datum.population : datum.population",
+      "as": "pop_display"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar", "cornerRadius": 3},
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "ordinal",
+          "sort": {
+            "field": "population",
+            "op": "sum",
+            "order": "descending"
+          },
+          "title": null,
+          "axis": {"labelFontSize": 11}
+        },
+        "x": {
+          "field": "pop_display",
+          "type": "quantitative",
+          "title": "Population (thousands)",
+          "axis": {
+            "labelExpr": "abs(datum.value)",
+            "tickCount": 6
+          },
+          "scale": {"domain": [-9500, 9500]}
+        },
+        "color": {
+          "field": "sex",
+          "type": "nominal",
+          "scale": {
+            "domain": ["female", "male"],
+            "range": ["#e377c2", "#1f77b4"]
+          },
+          "legend": {
+            "title": "Sex",
+            "labelExpr": "datum.label === 'female' ? 'Female' : 'Male'"
+          }
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "sex", "title": "Sex"},
+          {"field": "population", "title": "Population ('000)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "rule", "stroke": "#999", "strokeWidth": 1},
+      "encoding": {
+        "x": {"datum": 0, "type": "quantitative"}
+      }
+    }
+  ]
+}

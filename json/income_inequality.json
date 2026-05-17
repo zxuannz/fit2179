@@ -1,0 +1,167 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 920,
+  "height": 380,
+  "title": {
+    "text": "Income Inequality Ladder by State (2022)",
+    "subtitle": "Longer gap = more concentrated wealth at the top.",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#333",
+    "subtitleColor": "#666"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/hies_state.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "filter": "datum.date == '2022-01-01'"
+    },
+    {
+      "lookup": "state",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/hh_inequality_state.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "state",
+        "fields": ["gini"]
+      }
+    },
+    {
+      "calculate": "datum.income_mean - datum.income_median",
+      "as": "gap"
+    },
+    {
+      "calculate": "round((datum.income_mean - datum.income_median) / datum.income_median * 1000) / 10",
+      "as": "gap_ratio"
+    },
+    {
+      "calculate": "(datum.state == 'Selangor' || datum.state == 'W.P. Kuala Lumpur' || datum.state == 'W.P. Putrajaya') ? 'Has rail access' : 'No rail access'",
+      "as": "rail_label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 2.5},
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "gap_ratio", "order": "descending"},
+          "title": null,
+          "axis": {"labelAngle": -40, "labelFontSize": 11, "grid": false, "ticks": false}
+        },
+        "y": {
+          "field": "income_median",
+          "type": "quantitative",
+          "title": "Monthly Household Income (RM)",
+          "axis": {"labelFontSize": 11, "titleFontSize": 12, "grid": true, "gridDash": [3, 3], "format": ",.0f"}
+        },
+        "y2": {"field": "income_mean"},
+        "color": {
+          "field": "rail_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Has rail access", "No rail access"],
+            "range": ["#1D9E75", "#D85A30"]
+          },
+          "legend": {
+            "title": null,
+            "orient": "bottom-right",
+            "labelFontSize": 14
+          }
+        },
+        "tooltip": [
+          {"field": "state",         "title": "State"},
+          {"field": "income_median", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "income_mean",   "title": "Mean Income (RM)",   "format": ",.0f"},
+          {"field": "gap",           "title": "Gap (RM)",           "format": ",.0f"},
+          {"field": "gap_ratio",     "title": "Gap Ratio (%)"},
+          {"field": "gini",          "title": "Gini Coefficient"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "shape": "circle", "size": 60, "filled": true},
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "gap_ratio", "order": "descending"}
+        },
+        "y": {"field": "income_median", "type": "quantitative"},
+        "color": {
+          "field": "rail_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Has rail access", "No rail access"],
+            "range": ["#1D9E75", "#D85A30"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state",         "title": "State"},
+          {"field": "income_median", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "income_mean",   "title": "Mean Income (RM)",   "format": ",.0f"},
+          {"field": "gap",           "title": "Gap (RM)",           "format": ",.0f"},
+          {"field": "gap_ratio",     "title": "Gap Ratio (%)"},
+          {"field": "gini",          "title": "Gini Coefficient"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "point", "shape": "triangle-up", "size": 80, "filled": true},
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "gap_ratio", "order": "descending"}
+        },
+        "y": {"field": "income_mean", "type": "quantitative"},
+        "color": {
+          "field": "rail_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Has rail access", "No rail access"],
+            "range": ["#1D9E75", "#D85A30"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state",         "title": "State"},
+          {"field": "income_median", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "income_mean",   "title": "Mean Income (RM)",   "format": ",.0f"},
+          {"field": "gap",           "title": "Gap (RM)",           "format": ",.0f"},
+          {"field": "gap_ratio",     "title": "Gap Ratio (%)"},
+          {"field": "gini",          "title": "Gini Coefficient"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": -12, "fontSize": 10, "fontWeight": 500, "align": "center"},
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "gap_ratio", "order": "descending"}
+        },
+        "y": {"field": "income_mean", "type": "quantitative"},
+        "text": {"field": "gap_ratio", "format": ".1f"},
+        "color": {
+          "field": "rail_label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Has rail access", "No rail access"],
+            "range": ["#0F6E56", "#993C1D"]
+          },
+          "legend": null
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null}
+  }
+}

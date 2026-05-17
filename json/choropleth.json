@@ -1,0 +1,40 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Total Population by Malaysian State (2024)",
+  "width": 910,
+  "height": 380,
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/malaysia.topojson",
+    "format": {"type": "topojson", "feature": "data"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.shapeName",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/population_choropleth.csv"
+        },
+        "key": "state",
+        "fields": ["total_population"]
+      }
+    },
+    {
+      "calculate": "datum.total_population + 0",
+      "as": "Population"
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "#fff", "strokeWidth": 1},
+  "encoding": {
+    "color": {
+      "field": "Population",
+      "type": "quantitative",
+      "scale": {"scheme": "blues"},
+      "legend": {"title": "Population ('000)"}
+    },
+    "tooltip": [
+      {"field": "properties.shapeName", "title": "State"},
+      {"field": "Population", "title": "Population ('000)", "format": ".1f"}
+    ]
+  }
+}  

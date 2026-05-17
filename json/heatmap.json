@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 350,
+  "height": 280,
+  "title": {
+    "text": "ETS Ridership by Hour and Day of Week (2026)",
+    "subtitle": "Darker cells = more passengers.",
+    "fontSize": 15,
+    "subtitleFontSize": 12
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/ets_heatmap.csv"
+  },
+  "mark": {"type": "rect"},
+  "encoding": {
+    "x": {
+      "field": "hour",
+      "type": "ordinal",
+      "title": "Hour of Day",
+      "sort": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "day_of_week",
+      "type": "ordinal",
+      "title": null,
+      "sort": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "axis": {"labelFontSize": 12}
+    },
+    "color": {
+      "field": "ridership",
+      "type": "quantitative",
+      "scale": {"scheme": "blues"},
+      "legend": {"title": "Ridership", "orient": "right"}
+    },
+    "tooltip": [
+      {"field": "day_of_week", "title": "Day"},
+      {"field": "hour", "title": "Hour"},
+      {"field": "ridership", "title": "Ridership", "format": ",d"}
+    ]
+  }
+}

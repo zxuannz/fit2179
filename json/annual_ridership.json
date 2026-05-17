@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 540,
+  "height": 280,
+  "title": {
+    "text": "Annual Ridership by KL Rail Line (2019–2025)",
+    "subtitle": "LRT Kelana Jaya consistently carries the most passengers. MRT Kajang is growing fastest.",
+    "fontSize": 15,
+    "subtitleFontSize": 12
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/ridership_annual.csv"
+  },
+  "mark": {"type": "bar", "cornerRadius": 2},
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "ridership_mil",
+      "type": "quantitative",
+      "title": "Total Ridership (millions)",
+      "axis": {"grid": true}
+    },
+    "xOffset": {
+      "field": "line",
+      "type": "nominal"
+    },
+    "color": {
+      "field": "line",
+      "type": "nominal",
+      "scale": {
+        "domain": ["LRT Ampang", "MRT Kajang", "LRT Kelana Jaya", "KL Monorail"],
+        "range": ["#E57200", "#047940", "#D50032", "#84BD00"]
+      },
+      "legend": {"title": "Rail Line", "orient": "bottom", "direction": "horizontal", "columns": 4}
+    },
+    "tooltip": [
+      {"field": "year", "title": "Year"},
+      {"field": "line", "title": "Line"},
+      {"field": "ridership_mil", "title": "Ridership (millions)", "format": ".2f"}
+    ]
+  }
+}

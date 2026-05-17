@@ -1,0 +1,69 @@
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 445,
+    "height": 280,
+    "title": {
+      "text": "ETS Daily Ridership (Jan–May 2026)",
+      "subtitle": "Chinese New Year and public holidays cause notable dips.",
+      "fontSize": 15,
+      "subtitleFontSize": 12,
+      "color": "#333",
+      "subtitleColor": "#666"
+    },
+    "data": {
+      "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/ets_daily.csv"
+    },
+    "layer": [
+      {
+        "mark": {"type": "area", "opacity": 0.1, "color": "#1f77b4"},
+        "encoding": {
+          "x": {"field": "date", "type": "temporal", "title": null},
+          "y": {"field": "ridership", "type": "quantitative", "title": "Daily Ridership", "axis": {"grid": true, "format": "~s"}}
+        }
+      },
+      {
+        "mark": {"type": "line", "strokeWidth": 2, "color": "#1f77b4"},
+        "encoding": {
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "ridership", "type": "quantitative"},
+          "tooltip": [
+            {"field": "date", "type": "temporal", "title": "Date", "format": "%d %b %Y"},
+            {"field": "ridership", "title": "Daily Ridership", "format": ",d"}
+          ]
+        }
+      },
+      {
+        "data": {
+          "values": [
+            {"date": "2026-01-29", "label": "CNY Eve"},
+            {"date": "2026-02-01", "label": "CNY Holiday"},
+            {"date": "2026-03-28", "label": "Hari Raya"}
+          ]
+        },
+        "mark": {"type": "rule", "strokeDash": [4, 3], "stroke": "#d62728", "strokeWidth": 1.2},
+        "encoding": {"x": {"field": "date", "type": "temporal"}}
+      },
+      {
+        "data": {
+          "values": [
+            {"date": "2026-01-29", "label": "CNY Eve"},
+            {"date": "2026-02-01", "label": "CNY Holiday"},
+            {"date": "2026-03-28", "label": "Hari Raya"}
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "angle": -90,
+          "align": "right",
+          "dx": -30,
+          "dy": -5,
+          "fontSize": 10,
+          "color": "#d62728"
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal"},
+          "text": {"field": "label"}
+        }
+      }
+    ]
+  }

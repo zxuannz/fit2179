@@ -1,0 +1,60 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 385,
+  "height": 340,
+  "title": {
+    "text": "Household Income vs Poverty Rate by State (2022)",
+    "subtitle": "States with lower income tend to have higher poverty rates.",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#333",
+    "subtitleColor": "#666"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/hies_state.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "point", "filled": true, "size": 120},
+      "encoding": {
+        "x": {
+          "field": "income_mean",
+          "type": "quantitative",
+          "title": "Mean Household Income (RM/month)",
+          "axis": {"grid": true}
+        },
+        "y": {
+          "field": "poverty",
+          "type": "quantitative",
+          "title": "Poverty Rate (%)",
+          "axis": {"grid": true}
+        },
+        "color": {
+          "field": "poverty",
+          "type": "quantitative",
+          "scale": {"scheme": "orangered"},
+          "legend": null
+        },
+        "size": {
+          "field": "income_mean",
+          "type": "quantitative",
+          "legend": null,
+          "scale": {"range": [60, 300]}
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "income_mean", "title": "Mean Income (RM)", "format": ",d"},
+          {"field": "poverty", "title": "Poverty Rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 10, "color": "#555"},
+      "encoding": {
+        "x": {"field": "income_mean", "type": "quantitative"},
+        "y": {"field": "poverty", "type": "quantitative"},
+        "text": {"field": "state"}
+      }
+    }
+  ]
+}

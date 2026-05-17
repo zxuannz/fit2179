@@ -1,0 +1,79 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 265,
+  "height": 380,
+  "title": {
+    "text": "Mean Income vs Expenditure by State (2022)",
+    "subtitle": "Longer gap = more savings.",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#333",
+    "subtitleColor": "#666"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/hies_state.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 2, "color": "#aaa"},
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "ordinal",
+          "sort": {"field": "income_mean", "order": "descending"},
+          "title": null,
+          "axis": {"labelFontSize": 12}
+        },
+        "x": {
+          "field": "expenditure_mean",
+          "type": "quantitative",
+          "title": "RM per month"
+        },
+        "x2": {
+          "field": "income_mean",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true, "size": 100},
+      "transform": [
+        {
+          "fold": ["income_mean", "expenditure_mean"],
+          "as": ["metric", "value"]
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "ordinal",
+          "sort": {"field": "income_mean", "order": "descending"},
+          "title": null
+        },
+        "x": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "RM per month",
+          "axis": {"format": "~s", "grid": true}
+        },
+        "color": {
+          "field": "metric",
+          "type": "nominal",
+          "scale": {
+            "domain": ["income_mean", "expenditure_mean"],
+            "range": ["#1f77b4", "#ff7f0e"]
+          },
+          "legend": {
+            "title": null,
+            "labelExpr": "datum.label === 'income_mean' ? 'Mean Income' : 'Mean Expenditure'"
+          }
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "metric", "title": "Metric"},
+          {"field": "value", "title": "Amount (RM)", "format": ",d"}
+        ]
+      }
+    }
+  ]
+}

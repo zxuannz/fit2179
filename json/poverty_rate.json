@@ -1,0 +1,54 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 360,
+  "height": 340,
+  "title": {
+    "text": "Absolute Poverty Rate by State (2022)",
+    "subtitle": "East Malaysia and northern states lag behind.",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#333",
+    "subtitleColor": "#666"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/zxuannz/fit2179/refs/heads/main/data/poverty_state.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar", "cornerRadius": 3},
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "ordinal",
+          "sort": "-x",
+          "title": null,
+          "axis": {"labelFontSize": 12}
+        },
+        "x": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "title": "Poverty Rate (%)",
+          "axis": {"grid": true}
+        },
+        "color": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "scale": {"scheme": "orangered"},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "poverty_absolute", "title": "Poverty Rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 11, "color": "#555"},
+      "encoding": {
+        "y": {"field": "state", "type": "ordinal", "sort": "-x"},
+        "x": {"field": "poverty_absolute", "type": "quantitative"},
+        "text": {"field": "poverty_absolute", "format": ".1f"}
+      }
+    }
+  ]
+}
